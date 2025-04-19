@@ -1,8 +1,8 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
-    id "xyz.jpenilla.run-paper" version "1.0.6"
+    id "com.gradleup.shadow" version "9.0.0-beta11"
+    id "xyz.jpenilla.run-paper" version "2.3.1"
 }
 
 apply plugin: 'java'
@@ -32,7 +32,7 @@ repositories {
 
 group = project.property("group")
 version = project.property("version")
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_21
 
 processResources {
     filter ReplaceTokens, tokens: [
@@ -43,23 +43,15 @@ processResources {
 }
 
 dependencies {
-    compileOnly('dev.folia:folia-api:1.20.4-R0.1-SNAPSHOT') {
-        // Allows Java 1.8
-        targetConfiguration = "compile"
-    }
-    compileOnly 'org.spigotmc:spigot-api:1.20.3-R0.1-SNAPSHOT'
-//    compileOnly 'org.spigotmc:spigot:1.20.3-R0.1-SNAPSHOT:remapped-mojang' // We actually don't use it in project, all reflect
-
-    compileOnly('com.sk89q.worldedit:worldedit-bukkit:7.2.0-SNAPSHOT') {
-        exclude group: 'org.spigotmc', module: 'spigot-api'
-    }
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    compileOnly 'org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT'
+    compileOnly 'com.sk89q.worldedit:worldedit-core:7.4.0-SNAPSHOT'
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.4.0-SNAPSHOT'
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
     implementation 'io.papermc:paperlib:1.0.3'
     implementation 'com.zaxxer:HikariCP:4.0.3'
-    implementation 'net.kyori:adventure-api:4.15.0'
-//    implementation 'net.kyori:adventure-platform-bukkit:4.3.1' // Not for 1.20.3/4
-    implementation 'net.kyori:adventure-platform-bukkit:4.3.2-SNAPSHOT'
-    implementation 'net.kyori:adventure-text-serializer-plain:4.15.0'
+    implementation 'net.kyori:adventure-api:4.19.0'
+    implementation 'net.kyori:adventure-platform-bukkit:4.3.4'
+    implementation 'net.kyori:adventure-text-serializer-plain:4.19.0'
     implementation 'org.kitteh:paste-gg-api:1.0.0-SNAPSHOT'
     implementation 'de.tr7zw:item-nbt-api:2.12.2'
     implementation 'org.bstats:bstats-bukkit:3.0.0'
@@ -98,7 +90,7 @@ runServer {
     // Configure the Minecraft version for our task.
     // This is the only required configuration besides applying the plugin.
     // Your plugin's jar (or shadowJar if present) will be used automatically.
-    minecraftVersion("1.19.2")
+    minecraftVersion("1.21.5")
 }
 
 gradle.buildFinished {

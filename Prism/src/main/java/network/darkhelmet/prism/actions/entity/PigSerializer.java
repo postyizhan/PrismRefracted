@@ -3,24 +3,25 @@ package network.darkhelmet.prism.actions.entity;
 import network.darkhelmet.prism.utils.MiscUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
-import org.bukkit.entity.Cat;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Pig;
 
-public class CatSerializer extends EntitySerializer {
+public class PigSerializer extends EntitySerializer {
     protected String variant = null;
 
     @Override
     protected void serializer(Entity entity) {
-        variant = ((Cat) entity).getCatType().name().toLowerCase();
+        variant = ((Pig) entity).getVariant().getKey().getKey();
     }
 
     @Override
     protected void deserializer(Entity entity) {
-        var namespacedTypeKey = NamespacedKey.fromString(variant);
-        if (namespacedTypeKey != null) {
-            var catVariant = Registry.CAT_VARIANT.get(namespacedTypeKey);
-            if (catVariant != null) {
-                ((Cat) entity).setCatType(catVariant);
+        var pig = (Pig) entity;
+        var namespacedKey = NamespacedKey.fromString(variant);
+        if (namespacedKey != null) {
+            var variantObj = Registry.PIG_VARIANT.get(namespacedKey);
+            if (variantObj != null) {
+                pig.setVariant(variantObj);
             }
         }
     }
