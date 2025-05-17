@@ -48,7 +48,6 @@ Prism 根据 Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported 
 
 
 [license]: http://creativecommons.org/licenses/by-nc-sa/3.0/us/
-[addstarmc]: https://github.com/AddstarMC
 [discord]: https://discord.gg/7FxZScH4EJ
 [spigot]: https://www.spigotmc.org/resources/prism-refracted.99397/
 [jenkins]: https://ci.darkhelmet.network/job/Prism/
