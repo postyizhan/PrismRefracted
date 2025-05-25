@@ -159,7 +159,7 @@ public class CNLocalization {
                                 materialLocalize.put(value, "锻造模版(下界合金升级)");
                                 materialLocalizeRestore.put("锻造模版(下界合金升级)", value.name());
                                 added = true;
-                            } else if (Tag.ITEMS_TRIM_TEMPLATES.isTagged(value)) {
+                            } else if (value.name().endsWith("_TRIM_SMITHING_TEMPLATE")) {
                                 String name = "锻造模版(";
                                 String key = "trim_pattern.minecraft." + value.name().split("_", 2)[0].toLowerCase();
                                 JsonElement jsonElement = object.get(key);

@@ -15,6 +15,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.Location;
 
 import java.util.List;
 
@@ -137,9 +138,26 @@ public class TeleportCommand implements SubHandler {
                 return;
             }
             if (Prism.isFolia) {
-                call.getPlayer().teleportAsync(destinationAction.getLoc())
-                        .thenAccept(
-                                success -> sendTeleportCompleteMessage(success, call.getPlayer(), destinationAction));
+                try {
+                    // 使用反射调用 teleportAsync 方法
+                    Object future = call.getPlayer().getClass().getMethod("teleportAsync", Location.class)
+                            .invoke(call.getPlayer(), destinationAction.getLoc());
+                    
+                    // 尝试添加回调
+                    try {
+                        Class<?> completableFutureClass = Class.forName("java.util.concurrent.CompletableFuture");
+                        completableFutureClass.getMethod("thenAccept", java.util.function.Consumer.class)
+                                .invoke(future, (java.util.function.Consumer<Boolean>)
+                                        success -> sendTeleportCompleteMessage(success, call.getPlayer(), destinationAction));
+                    } catch (Exception ex) {
+                        // 如果无法添加回调，则默认传送成功
+                        sendTeleportCompleteMessage(true, call.getPlayer(), destinationAction);
+                    }
+                } catch (Exception ex) {
+                    // 回退到同步传送
+                    sendTeleportCompleteMessage(call.getPlayer().teleport(destinationAction.getLoc()), 
+                            call.getPlayer(), destinationAction);
+                }
             } else if (PaperLib.isPaper()) {
                 PaperLib.teleportAsync(call.getPlayer(), destinationAction.getLoc())
                         .thenAccept(

@@ -290,7 +290,7 @@ public class PrismExplodeEvents implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onProjectileHit(ProjectileHitEvent e) {
-        if (e.getHitEntity() instanceof ExplosiveMinecart || e.getEntityType() == EntityType.ENDER_CRYSTAL) {
+        if (e.getHitEntity() instanceof ExplosiveMinecart || isEnderCrystal(e.getEntityType())) {
             if (e.getEntity().getShooter() != null && e.getEntity().getShooter() instanceof Player) {
                 if (getCache(e.getEntity()) != null) {
                     addCache(e.getHitEntity(), e.getEntity(), null, null);
@@ -541,6 +541,16 @@ public class PrismExplodeEvents implements Listener {
             // look for relationships
             be.logBlockRelationshipsForBlock(cause, block);
 
+        }
+    }
+
+    // 检查实体类型是否为末影水晶
+    private boolean isEnderCrystal(EntityType type) {
+        try {
+            return type == EntityType.valueOf("ENDER_CRYSTAL");
+        } catch (IllegalArgumentException e) {
+            // 旧版本可能没有 ENDER_CRYSTAL 枚举
+            return type.name().equals("ENDER_CRYSTAL");
         }
     }
 

@@ -388,7 +388,11 @@ public class Preview implements Previewable {
                         if (add > 0) {
                             entitiesMoved.put(entity, add);
                             if (Prism.isFolia) {
-                                entity.teleportAsync(l);
+                                try {
+                                    entity.getClass().getMethod("teleportAsync", Location.class).invoke(entity, l);
+                                } catch (Exception ex) {
+                                    entity.teleport(l); // 回退到同步传送
+                                }
                             } else {
                                 entity.teleport(l);
                             }
