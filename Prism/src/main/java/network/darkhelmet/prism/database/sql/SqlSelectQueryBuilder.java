@@ -339,7 +339,7 @@ public class SqlSelectQueryBuilder extends QueryBuilder implements SelectQuery {
     @Override
     protected String group() {
         if (shouldGroup) {
-            return " GROUP BY " + tableNameData + ".action_id, " + tableNameData + ".player_id, " + tableNameData
+            return " GROUP BY " + tableNameData + ".id, " + tableNameData + ".action_id, " + tableNameData + ".player_id, " + tableNameData
                     + ".block_id, " + tableNameData  + ".rollbacked, ex.data, DATE(FROM_UNIXTIME(" + tableNameData + ".epoch))";
         }
         return "";
