@@ -311,15 +311,15 @@ public class Preview implements Previewable {
                         if (!isPreview) {
                             iterator.remove();
                         }
-                    } catch (final Exception e) {
-                        String msg = e.getMessage() == null ? "未知原因" : e.getMessage();
+                    } catch (final Throwable t) {
+                        String msg = t.getMessage() == null ? "未知原因" : t.getMessage();
                         Prism.log(String.format("应用器错误: %s (ID: %d)", msg, a.getId()));
                         Prism.log(String.format("方块类型: %s (旧类型: %s)", a.getMaterial(), a.getOldMaterial()));
                         Prism.log(String.format("方块坐标: %d, %d, %d",
                                 a.getLoc().getBlockX(),
                                 a.getLoc().getBlockY(),
                                 a.getLoc().getBlockZ()));
-                        e.printStackTrace();
+                        t.printStackTrace();
 
                         // Count as skipped, remove from queue
                         skippedBlockCount++;
